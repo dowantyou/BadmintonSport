@@ -6,6 +6,8 @@ import com.badmintonsport.common.properties.JwtProperties;
 import com.badmintonsport.common.result.Result;
 import com.badmintonsport.common.utils.JwtUtil;
 import com.badmintonsport.pojo.dto.UserLoginDTO;
+import com.badmintonsport.pojo.entity.Posts;
+import com.badmintonsport.pojo.vo.GetUserVO;
 import com.badmintonsport.pojo.vo.UserLoginVO;
 import com.badmintonsport.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -47,20 +50,20 @@ public class UserController {
                 jwtProperties.getAdminSecretKey(),
                 jwtProperties.getAdminTtl(),
                 claims);
-        //
+
         userLoginvo.setToken(token);
         return Result.success(userLoginvo);
     }
 
     //获取用户个人信息
     @RequestMapping("/getUser")
-    public Result getUser(@RequestBody UserLoginDTO userLoginDTO) {
+    public Result<GetUserVO> getUser(@RequestBody UserLoginDTO userLoginDTO) {
         return Result.success(userService.getUser(userLoginDTO));
     }
 
     //获取用户发布的帖子
     @RequestMapping("/getPosts")
-    public Result getPosts(@RequestBody UserLoginDTO userLoginDTO) {
+    public Result<List<Posts>> getPosts(@RequestBody UserLoginDTO userLoginDTO) {
         return Result.success(userService.getPosts(userLoginDTO));
     }
 }

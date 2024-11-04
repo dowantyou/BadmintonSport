@@ -3,6 +3,7 @@ package com.badmintonsport.service;
 
 import com.badmintonsport.common.result.Result;
 import com.badmintonsport.pojo.dto.UserLoginDTO;
+import com.badmintonsport.pojo.entity.Posts;
 import com.badmintonsport.pojo.vo.GetUserVO;
 import com.badmintonsport.pojo.vo.PostsVO;
 import com.badmintonsport.pojo.vo.UserLoginVO;
@@ -16,5 +17,5 @@ public interface UserService {
 
     GetUserVO getUser(UserLoginDTO userLoginDTO);
 
-    List<PostsVO> getPosts(UserLoginDTO userLoginDTO);
+    List<Posts> getPosts(UserLoginDTO userLoginDTO);
 }

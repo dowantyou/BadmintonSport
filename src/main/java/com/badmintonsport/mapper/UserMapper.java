@@ -1,6 +1,7 @@
 package com.badmintonsport.mapper;
 
 import com.badmintonsport.pojo.dto.UserLoginDTO;
+import com.badmintonsport.pojo.entity.Posts;
 import com.badmintonsport.pojo.entity.Users;
 import com.badmintonsport.pojo.vo.GetUserVO;
 import com.badmintonsport.pojo.vo.PostsVO;
@@ -35,5 +36,5 @@ public interface UserMapper {
     @Select("select post_id,title,content" +
             ",video_url,images,created_at" +
             " from posts where user_id=#{userId}")
-    List<PostsVO> getPosts(UserLoginDTO userLoginDTO);
+    List<Posts> getPosts(UserLoginDTO userLoginDTO);
 }

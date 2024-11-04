@@ -7,6 +7,7 @@ import com.badmintonsport.common.exception.PasswordErrorException;
 import com.badmintonsport.common.result.Result;
 import com.badmintonsport.mapper.UserMapper;
 import com.badmintonsport.pojo.dto.UserLoginDTO;
+import com.badmintonsport.pojo.entity.Posts;
 import com.badmintonsport.pojo.entity.Users;
 import com.badmintonsport.pojo.vo.GetUserVO;
 import com.badmintonsport.pojo.vo.PostsVO;
@@ -73,11 +74,13 @@ public class UserServiceimpl implements UserService {
     //获取用户个人信息
     @Override
     public GetUserVO getUser(UserLoginDTO userLoginDTO) {
-        return userMapper.getUser(userLoginDTO);
+        GetUserVO getUserVO = userMapper.getUser(userLoginDTO);
+        getUserVO.setPosts(getPosts(userLoginDTO));
+        return getUserVO;
     }
 
     @Override
-    public List<PostsVO> getPosts(UserLoginDTO userLoginDTO) {
+    public List<Posts> getPosts(UserLoginDTO userLoginDTO) {
         return userMapper.getPosts(userLoginDTO);
     }
 
