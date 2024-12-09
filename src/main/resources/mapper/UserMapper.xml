@@ -5,4 +5,16 @@
     <insert id="register" useGeneratedKeys="true" keyProperty="userId">
         insert into user (phonenumber,password) values (#{phonenumber},#{password})
     </insert>
+
+    <select id="selectList" resultType="com.badmintonsport.pojo.entity.Users">
+        SELECT * FROM user
+    </select>
+
+    <select id="selectById" resultType="com.badmintonsport.pojo.entity.Users">
+        SELECT * FROM user WHERE user_id = #{userId}
+    </select>
+    <select id="getFirstUser" resultType="com.badmintonsport.pojo.entity.Users">
+        SELECT * FROM user ORDER BY user_id ASC LIMIT 1
+    </select>
+
 </mapper>

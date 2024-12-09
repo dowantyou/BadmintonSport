@@ -1,19 +1,24 @@
 package com.badmintonsport.controller;
 
 import com.badmintonsport.common.constant.MessageConstant;
+import com.badmintonsport.common.context.ErrorCode;
 import com.badmintonsport.common.exception.AccountNotFoundException;
+import com.badmintonsport.common.exception.BusinessException;
 import com.badmintonsport.common.properties.JwtProperties;
+import com.badmintonsport.common.result.BaseResponse;
 import com.badmintonsport.common.result.Result;
 import com.badmintonsport.common.utils.JwtUtil;
+import com.badmintonsport.common.utils.ResultUtils;
 import com.badmintonsport.pojo.dto.UserLoginDTO;
 import com.badmintonsport.pojo.entity.Posts;
+import com.badmintonsport.pojo.entity.Users;
 import com.badmintonsport.pojo.vo.GetUserVO;
 import com.badmintonsport.pojo.vo.UserLoginVO;
+import com.badmintonsport.pojo.vo.UsersVO;
 import com.badmintonsport.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,16 +46,18 @@ public class UserController {
     //用户登录
     @RequestMapping("/login")
     public Result login(@RequestBody UserLoginDTO userLoginDTO) {
+        // 调用服务层方法
         UserLoginVO userLoginvo= userService.login(userLoginDTO);
         //登录成功后，生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
         String UserId = "UserId";
         claims.put(UserId, userLoginvo.getUserId());
+        // 生成jwt令牌
         String token = JwtUtil.createJWT(
                 jwtProperties.getAdminSecretKey(),
                 jwtProperties.getAdminTtl(),
                 claims);
-
+        // 设置到token属性
         userLoginvo.setToken(token);
         return Result.success(userLoginvo);
     }
@@ -65,5 +72,30 @@ public class UserController {
     @RequestMapping("/getPosts")
     public Result<List<Posts>> getPosts(@RequestBody UserLoginDTO userLoginDTO) {
         return Result.success(userService.getPosts(userLoginDTO));
+    }
+
+    /**
+     * 功能描述:将用户信息批量添加到redis中
+     * @MethodName: shopDataToRedis
+     * @MethodParam: []
+
+     */
+
+    @GetMapping("/userDataToRedis")
+    public Result UserDataToRedis(){
+        userService.UserDataToRedis();
+        return Result.success();
+    }
+
+    /**
+     * 搜索附近用户
+     */
+    @GetMapping("/searchNearby")
+    public BaseResponse<List<UsersVO>> searchNearby(@RequestParam(value = "radius", defaultValue = "1000")int radius, Users loginUser) {
+        if (radius <= 0 || radius > 10000) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        List<UsersVO> userVOList = userService.searchNearby(radius, loginUser);
+        return ResultUtils.success(userVOList);
     }
 }
