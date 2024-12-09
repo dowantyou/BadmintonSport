@@ -5,7 +5,9 @@ badminton:
     port: 3306
     database: badmintonsport
     username: root
-    password: 13725971932
+    password: 123456
+
+
 #  alioss:
 #    endpoint:
 #    access-key-id:

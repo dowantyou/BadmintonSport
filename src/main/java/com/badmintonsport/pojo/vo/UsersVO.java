@@ -1,17 +1,9 @@
-package com.badmintonsport.pojo.entity;
+package com.badmintonsport.pojo.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
-
-@TableName(value ="user")
 @Data
-public class Users implements Serializable {
-
-    @TableId(type = IdType.AUTO)
+public class UsersVO {
     private int userId;
     private String account;
     private String profilePicture;
@@ -24,13 +16,9 @@ public class Users implements Serializable {
     private String favouritesCount;
     private String phonenumber;
     private String password;
-    /**
-     * 经度
-     */
-    private Double longitude;
 
     /**
-     * 维度
+     * 用户距离
      */
-    private Double dimension;
+    private Double distance;
 }

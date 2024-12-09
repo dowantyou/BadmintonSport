@@ -6,13 +6,18 @@ import com.badmintonsport.pojo.entity.Users;
 import com.badmintonsport.pojo.vo.GetUserVO;
 import com.badmintonsport.pojo.vo.PostsVO;
 import com.badmintonsport.pojo.vo.UserLoginVO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<Users> {
+
+    //获取第一个用户
+    Users getFirstUser();
+    Users selectById(Long userId);
 
     //用户注册
     void register(UserLoginDTO usersLoginDTO);
